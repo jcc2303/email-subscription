@@ -12,7 +12,6 @@ const port = Number(process.env.DATABASE_PORT)
 const username = process.env.DATABASE_USER
 const password = process.env.DATABASE_PASSWORD
 const database = process.env.DATABASE_DB
-      
 
 @Module({
   imports: [

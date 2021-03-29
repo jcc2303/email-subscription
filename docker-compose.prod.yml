@@ -8,12 +8,12 @@ services:
       - /var/lib/mysql/logs:${MARIADB_LOG_DIR}
       - /var/docker/mariadb/conf:/etc/mysql
     networks:
-     - t5-house
+     - in-work
 
 volumes:
   db-data:
 
 
 networks:
-  t5-house:
+  in-work:
     external: true

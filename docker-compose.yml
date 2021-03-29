@@ -12,3 +12,22 @@ services:
       MYSQL_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - 3306:${DATABASE_PORT}
+    networks:
+     - network-inhouse
+
+  subscription-service:
+    build: ./subscription
+    env_file:
+        - .env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    depends_on:
+      - mariadb
+    ports:
+      - 3000:3000
+    networks:
+     - network-inhouse
+      
+networks:
+  network-inhouse:
+    external: true      
