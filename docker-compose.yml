@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+
+  mariadb:
+    image: mariadb:10.5
+    env_file:
+        - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_DB}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - 3306:${DATABASE_PORT}

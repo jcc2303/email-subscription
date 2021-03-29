@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+
+  mariadb:
+    restart: always    
+    volumes: 
+      - /var/lib/mysql/data:${MARIADB_DATA_DIR}
+      - /var/lib/mysql/logs:${MARIADB_LOG_DIR}
+      - /var/docker/mariadb/conf:/etc/mysql
+    networks:
+     - t5-house
+
+volumes:
+  db-data:
+
+
+networks:
+  t5-house:
+    external: true
