@@ -1,34 +1,34 @@
 // file: subscription.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
 import {IsEmail} from 'class-validator'
-import { ApiProperty } from "@nestjs/swagger";
+// import { ApiProperty } from "@nestjs/swagger";
 
 @Entity('subscription')
 export class Subscription {
   @PrimaryGeneratedColumn() id: number;
 
-  @ApiProperty()
+//  @ApiProperty()
   @Column() 
   @IsEmail()
   email: string;
 
-  @ApiProperty()
+//  @ApiProperty()
   @Column() 
   born: Date;
 
-  @ApiProperty()
+//  @ApiProperty()
   @Column({ type: 'boolean', default: false}) 
   consent: boolean;
 
-  @ApiProperty()
+//  @ApiProperty()
   @Column() 
   campaign: string; // newsletterId
 
-  @ApiProperty({nullable:true})
+//  @ApiProperty({nullable:true})
   @Column({nullable:true}) 
   firstName: string;
 
-  @ApiProperty({nullable:true})
+//  @ApiProperty({nullable:true})
   @Column({nullable:true}) 
   gender: string;
 
