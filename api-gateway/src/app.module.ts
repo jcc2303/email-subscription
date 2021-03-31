@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { join } from 'path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,14 +10,14 @@ import { AppService } from './app.service';
   imports: [
     ClientsModule.register([
       {
-        name: "SERVICE_A",
-        transport: Transport.TCP,
+        name: 'HERO_PACKAGE',
+        transport: Transport.GRPC,
         options: {
-          host: "127.0.0.1",
-          port: 3000
-        }
-      }
-    ])
+          package: 'hero',
+          protoPath: join(__dirname, 'hero/hero.proto'),
+        },
+      },
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService]

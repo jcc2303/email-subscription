@@ -1,7 +1,27 @@
+import { OnModuleInit } from '@nestjs/common';
 import { Injectable, Inject } from '@nestjs/common';
-import { ClientProxy } from "@nestjs/microservices";
+import { ClientGrpc, ClientProxy } from "@nestjs/microservices";
+import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
+import { HeroesService } from './hero/heroes.interfaces';
 
+@Injectable()
+export class AppService implements OnModuleInit {
+  private heroesService: HeroesService;
+
+  constructor(@Inject('HERO_PACKAGE') private client: ClientGrpc) {}
+
+  onModuleInit() {
+    this.heroesService = this.client.getService<HeroesService>('HeroesService');
+  }
+
+  getHero(): Observable<string> {
+    return this.heroesService.findOne({ id: 1 });
+  }
+}
+
+
+/*
 @Injectable()
 export class AppService {
   constructor(
@@ -19,3 +39,4 @@ export class AppService {
       );
   }
 }
+*/

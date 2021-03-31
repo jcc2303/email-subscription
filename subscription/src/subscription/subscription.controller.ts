@@ -1,11 +1,15 @@
 // file: subscription.controller.ts
 import { Controller } from "@nestjs/common";
-import { MessagePattern } from "@nestjs/microservices";
+import { MessagePattern, GrpcMethod } from "@nestjs/microservices";
+import { Metadata, ServerUnaryCall } from 'grpc'
 
 import { Crud, CrudController } from "@nestjsx/crud";
 
-import { Subscription } from "./subscription.entity";
 import { SubscriptionService } from "./subscription.service";
+
+import { Subscription } from "./subscription.entity";
+import { Hero, HeroById } from './Hero';
+
 
 import { of } from "rxjs";
 import { delay } from "rxjs/operators";
@@ -27,4 +31,15 @@ export class SubscriptionController implements CrudController<Subscription> {
   ping(_: any) {
     return of("pong").pipe(delay(1000));
   }  
+
+  @GrpcMethod('HeroesService', 'FindOne')
+  findOne(data: HeroById, metadata: Metadata, call: ServerUnaryCall<any>): Hero {
+    const items = [
+      { id: 1, name: 'John' },
+      { id: 2, name: 'Doe' },
+    ];
+    return items.find(({ id }) => id === data.id);
+  }
+
+
 }
