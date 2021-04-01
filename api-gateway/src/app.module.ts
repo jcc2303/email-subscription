@@ -10,11 +10,11 @@ import { AppService } from './app.service';
   imports: [
     ClientsModule.register([
       {
-        name: 'HERO_PACKAGE',
+        name: 'SUBSCRIPTION_PACKAGE',
         transport: Transport.GRPC,
         options: {
-          package: 'hero',
-          protoPath: join(__dirname, 'hero/hero.proto'),
+          package: 'proto',
+          protoPath: join(__dirname, 'proto/subscription.proto'),
         },
       },
     ]),

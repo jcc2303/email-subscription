@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package proto;
+
+message Empty {}
+
+message Subscription {
+    int32 id = 1;
+    string email = 2;
+    string born = 3;
+    bool consent = 4;
+    string campaign = 5;
+    optional string firstName = 6;
+    optional string gender = 7;
+}
+
+message SubscriptionList {
+    repeated Subscription subscriptions = 1;
+}
+
+message SubscriptionRequestId {
+    int32 id = 1;
+}
+
+service SubscriptionService {
+    rpc GetAll (Empty) returns (SubscriptionList) {}
+    rpc Get (SubscriptionRequestId) returns (Subscription) {}
+    rpc Insert (Subscription) returns (Subscription) {}
+    rpc Update (Subscription) returns (Empty) {}
+    rpc Remove (SubscriptionRequestId) returns (Empty) {}
+}
+

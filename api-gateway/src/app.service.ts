@@ -3,40 +3,41 @@ import { Injectable, Inject } from '@nestjs/common';
 import { ClientGrpc, ClientProxy } from "@nestjs/microservices";
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
-import { HeroesService } from './hero/heroes.interfaces';
+import { SubscriptionService } from './proto/subscription.interfaces';
+
+let example = {id:1, email:'email', born:'1981-03-23', consent: true, campaign:'campaign', firstName:'firstName', gender:'male'}
 
 @Injectable()
 export class AppService implements OnModuleInit {
-  private heroesService: HeroesService;
+  private subscriptionService: SubscriptionService;
 
-  constructor(@Inject('HERO_PACKAGE') private client: ClientGrpc) {}
+  constructor(@Inject('SUBSCRIPTION_PACKAGE') private client: ClientGrpc) {}
 
   onModuleInit() {
-    this.heroesService = this.client.getService<HeroesService>('HeroesService');
+    this.subscriptionService = this.client.getService<SubscriptionService>('SubscriptionService');
   }
 
-  getHero(): Observable<string> {
-    return this.heroesService.findOne({ id: 1 });
+
+  getAll(): Observable<any> {
+    let result = this.subscriptionService.getAll({})
+    console.log(result);    
+    return result
   }
+
+  get(data): Observable<string> {
+    return this.subscriptionService.get(data);
+  }
+
+  insert(data): Observable<string> {
+    return this.subscriptionService.insert(data);
+  }
+
+  update(data): Observable<string> {
+    return this.subscriptionService.update(data);
+  }
+
+  remove(data): Observable<string> {
+    return this.subscriptionService.remove(data);
+  }
+
 }
-
-
-/*
-@Injectable()
-export class AppService {
-  constructor(
-    @Inject("SERVICE_A") private readonly clientServiceA: ClientProxy
-  ) {}
-
-  pingServiceA() {
-    const startTs = Date.now();
-    const pattern = { cmd: "ping" };
-    const payload = {};
-    return this.clientServiceA
-      .send<string>(pattern, payload)
-      .pipe(
-        map((message: string) => ({ message, duration: Date.now() - startTs }))
-      );
-  }
-}
-*/
