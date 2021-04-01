@@ -1,13 +1,14 @@
 version: '3.3'
 services:
 
-  mariadb:
+  mariadb-service:
     env_file:
-        - .env.dev
-
-
+        - ./.env
 
   subscription-service:
     env_file:
-        - .env.dev
+        - ./.env
 
+  apigateway-service:
+    env_file:
+        - ./.env

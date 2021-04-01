@@ -1,15 +1,15 @@
 version: '3.3'
 services:
 
-  mariadb:
+  mariadb-service:
     image: mariadb:10.5
     env_file:
         - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DATABASE_DB}
-      MYSQL_USER: ${DATABASE_USER}
-      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_DB}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
     ports:
       - 3306:${DATABASE_PORT}
     networks:
@@ -21,10 +21,29 @@ services:
         - .env
     environment:
       - NODE_ENV=${NODE_ENV}
+      - MYSQL_DATABASE=${DATABASE_DB}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
     depends_on:
-      - mariadb
+      - mariadb-service
     ports:
-      - 3000:3000
+      - 5000:5000
+    networks:
+      - network-inhouse
+
+
+  apigateway-service:
+    build: ./api-gateway
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - SUBSCRIPTION_HOST=${SUBSCRIPTION_HOST}
+      - SUBSCRIPTION_PORT=${SUBSCRIPTION_PORT}
+    depends_on:
+      - subscription-service
+    ports:
+      - 4000:${APIGATEWAY_PORT}
     networks:
      - network-inhouse
       

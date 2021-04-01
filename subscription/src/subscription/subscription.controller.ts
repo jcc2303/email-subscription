@@ -10,16 +10,6 @@ import { SubscriptionService } from "./subscription.service";
 import { Subscription } from "./subscription.entity";
 
 
-import { of } from "rxjs";
-import { delay } from "rxjs/operators";
-
-
-let example = new Subscription()
-example.id = 1000
-example.email = "example@example.com"
-
-
-
 @Controller("subscription")
 export class SubscriptionController  {
   constructor(public service: SubscriptionService) {}
@@ -28,6 +18,7 @@ export class SubscriptionController  {
   @GrpcMethod('SubscriptionService', 'GetAll')
   async getAll( data: {}, metadata: Metadata, call: ServerUnaryCall<any>): Promise<any> {
     let result = await this.service.findAll()
+    console.log('getAll', result);
     return {subscriptions: result} 
   }
 

@@ -2,24 +2,24 @@ FROM node:15.10-alpine as base
 
 RUN apk add --no-cache python make g++ bind-tools
 
+WORKDIR /usr/local/api-gateway
 
-WORKDIR /usr/local/subscription
-
-COPY dist package.json ./
+COPY package.json ./
 # COPY ./ /src/
+# RUN apk add --no-cache python make g++ bind-tools
 # RUN npm run build
 
 RUN npm install --production
+COPY dist ./
 
 FROM node:15.10-alpine
 
-WORKDIR /usr/local/subscription
+WORKDIR /usr/local/api-gateway
 
-COPY --from=base /usr/local/subscription .
+COPY --from=base /usr/local/api-gateway .
 
-EXPOSE 5000
+EXPOSE 4000
 
 ENV NODE_ENV=production
-RUN ls /usr/local/subscription
 CMD ["node", "main.js"]
 # CMD node dist/main.js

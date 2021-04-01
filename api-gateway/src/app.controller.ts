@@ -7,9 +7,11 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getAll() {
+  async getAll() {
     console.log('getAll');    
-    return this.appService.getAll().toPromise().then(x => x.subscriptions);
+    let result = await this.appService.getAll().toPromise()
+    console.log('getAll-end', result);    
+    return result.subscriptions;
   }
 
   @Get(':id')

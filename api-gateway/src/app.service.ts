@@ -2,10 +2,7 @@ import { OnModuleInit } from '@nestjs/common';
 import { Injectable, Inject } from '@nestjs/common';
 import { ClientGrpc, ClientProxy } from "@nestjs/microservices";
 import { Observable } from 'rxjs';
-import { map } from "rxjs/operators";
 import { SubscriptionService } from './proto/subscription.interfaces';
-
-let example = {id:1, email:'email', born:'1981-03-23', consent: true, campaign:'campaign', firstName:'firstName', gender:'male'}
 
 @Injectable()
 export class AppService implements OnModuleInit {
@@ -20,7 +17,6 @@ export class AppService implements OnModuleInit {
 
   getAll(): Observable<any> {
     let result = this.subscriptionService.getAll({})
-    console.log(result);    
     return result
   }
 
