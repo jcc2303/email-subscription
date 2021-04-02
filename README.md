@@ -160,10 +160,12 @@ TODO: feature: database indexing
 
 TODO: feature: swagger was working but when added grpc then it is need to another way around , maybe open-api 
 
+TODO: security server credential gRPC
+
 ## missing 
 
 - handler exception
-- authentication
+- authentication (jwt) and authorization
 - loggers
 - healty check
 - kubernates Roadmap

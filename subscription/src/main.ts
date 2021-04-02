@@ -12,7 +12,8 @@ async function bootstrap() {
       options: { 
         package: 'proto', 
         protoPath: join(__dirname, 'proto/subscription.proto') ,
-        url: '0.0.0.0:5000'
+        url: '0.0.0.0:5000',
+        // TODO: credentials:{}
       } 
     },);
 
