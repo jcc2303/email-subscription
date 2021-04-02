@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 
 import { Subscription } from "./subscription.entity";
 
+
+
 @Injectable()
 export class SubscriptionService {
   constructor(
@@ -11,6 +13,7 @@ export class SubscriptionService {
     private subscriptionsRepository: Repository<Subscription>,
   ) {}
 
+  // protected
   findAll(): Promise<Subscription[]> {
     return this.subscriptionsRepository.find();
   }
@@ -20,7 +23,21 @@ export class SubscriptionService {
   }
 
   async insert(subscription: Subscription): Promise<any> {
-    return await this.subscriptionsRepository.insert(subscription);
+    let result = await this.subscriptionsRepository.insert(subscription);
+
+    // const payload: KafkaPayload = {
+    //   messageId: '' + new Date().valueOf(),
+    //   body: {
+    //     value: 'Welcome to newsletter',        
+    //     subscription
+    //   },
+    //   messageType: 'newsletter.welcome.type',
+    //   topicName: 'newsletter.topic', // topic name could be any name
+    // };
+    // // const value = await 
+    // this.kafkaService.sendMessage('newsletter.topic', payload); // 'newsletter.fixed.topic'
+
+    return result
   }
 
   async update(subscription: Subscription): Promise<void> {

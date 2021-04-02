@@ -1,5 +1,5 @@
 {
-  "name": "email-subscription",
+  "name": "emailer",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -21,24 +21,15 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@grpc/proto-loader": "^0.5.6",
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
     "@nestjs/microservices": "^7.6.15",
     "@nestjs/platform-express": "^7.6.15",
-    "@nestjs/swagger": "^4.8.0",
-    "@nestjs/typeorm": "^7.1.5",
-    "class-transformer": "^0.4.0",
-    "class-validator": "^0.13.1",
     "dotenv": "^8.2.0",
-    "grpc": "^1.24.6",
     "kafkajs": "^1.15.0",
-    "mysql2": "^2.2.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.6.6",
-    "swagger-ui-express": "^4.1.6",
-    "typeorm": "^0.2.31"
+    "rxjs": "^6.6.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",

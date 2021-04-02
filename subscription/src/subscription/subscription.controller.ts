@@ -1,6 +1,7 @@
 // file: subscription.controller.ts
 import { Controller } from "@nestjs/common";
-import { MessagePattern, GrpcMethod } from "@nestjs/microservices";
+import { GrpcMethod, ClientOptions } from "@nestjs/microservices";
+import { Client, ClientKafka, Ctx, EventPattern, KafkaContext, MessagePattern, Payload, Transport } from '@nestjs/microservices';
 import { Metadata, ServerUnaryCall } from 'grpc'
 
 // import { Crud, CrudController } from "@nestjsx/crud";
@@ -9,10 +10,35 @@ import { SubscriptionService } from "./subscription.service";
 
 import { Subscription } from "./subscription.entity";
 
+import 'dotenv/config'
+
+const kafka_service = process.env.KAFKA_SERVICE     
+console.log(kafka_service);
+
+
+export const microserviceConfig: ClientOptions =  {
+  transport: Transport.KAFKA,
+  options: {
+    client: {
+      clientId: 'emailer-client', // hero-server
+      brokers: [kafka_service],// 'localhost:9092'
+    },
+    consumer: {
+      groupId: 'emailer',
+      allowAutoTopicCreation: true,
+    }
+  }
+} 
+
+
 
 @Controller("subscription")
 export class SubscriptionController  {
   constructor(public service: SubscriptionService) {}
+
+  // this is alternative to Module creation client
+  @Client(microserviceConfig)
+  client: ClientKafka;
 
 
   @GrpcMethod('SubscriptionService', 'GetAll')
@@ -29,7 +55,16 @@ export class SubscriptionController  {
 
   @GrpcMethod('SubscriptionService', 'Insert')
   async insert( data: Subscription, metadata: Metadata, call: ServerUnaryCall<any>): Promise<Subscription> {
-    let result = await this.service.insert(data)    
+    console.log('insert', data);
+    let result = await this.service.insert(data)   
+    console.log('inserted in db', result);
+    let body = {
+           value: 'Welcome to newsletter',        
+           data
+    }     
+    this.client.emit<string>('newsletter.topic', JSON.stringify(body) );    
+    console.log('emitted to queue to :', 'newsletter.topic');
+
     return Object.assign(data,result.identifiers[0])
   }
 
